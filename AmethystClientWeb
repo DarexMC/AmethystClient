@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amethyst Client | Elite Performance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --accent-primary: #5A0096;
+            --accent-secondary: #3a0063;
+            --accent-glow: rgba(90, 0, 150, 0.5);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(20, 20, 30, 0.7);
+            --text-light: #edf2f7;
+            --text-dim: #a0aec0;
+            --border-glow: rgba(90, 0, 150, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: "Inter", sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fondo con efecto de ruido y gradiente */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(90, 0, 150, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(90, 0, 150, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Efecto de ruido sutil */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wMjUiIC8+PC9zdmc+');
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        /* Header principal */
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .title {
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        /* AMETHYST COMPLETAMENTE MORADO */
+        .amethyst-purple {
+            color: #5A0096;
+            text-shadow: 0 0 20px rgba(90, 0, 150, 0.5);
+        }
+
+        .client-white {
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .developer-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.5rem 0.6rem 1rem;
+            border-radius: 100px;
+            border: 1px solid var(--border-glow);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: var(--text-dim);
+            transition: border-color 0.3s;
+        }
+
+        .developer-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .developer-card .badge {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Botón DESCARGAR */
+        .download-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 10px 25px -5px var(--accent-glow);
+            margin: 1rem 0 2rem 0;
+            letter-spacing: 0.5px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -5px var(--accent-primary);
+        }
+
+        /* Botones sociales */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0 2rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background: rgba(20, 20, 30, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-glow);
+            border-radius: 100px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent-primary);
+            background: rgba(90, 0, 150, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Sección de módulos */
+        .modules-section {
+            width: 100%;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .modules-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modules-header h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .amethyst-badge {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px var(--accent-glow);
+        }
+
+        .module-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-name::before {
+            content: "💜";
+            font-size: 1.2rem;
+        }
+
+        .module-description {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 2rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .download-btn { padding: 0.9rem 2rem; font-size: 1rem; }
+            .social-link { padding: 0.7rem 1.2rem; min-width: 100px; }
+            .modules-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <header class="hero">
+        <div class="developer-card">
+            <span class="badge">DEV</span>
+            <span>Creado por <strong style="color: #fff;">ItsDarexMC</strong></span>
+        </div>
+
+        <!-- TÍTULO CON AMETHYST 100% MORADO -->
+        <h1 class="title">
+            <span class="amethyst-purple">Amethyst</span> <span class="client-white">Client</span>
+        </h1>
+
+        <p class="subtitle">
+            Experimenta el rendimiento definitivo en Minecraft. Optimizado para máxima fluidez y FPS.
+        </p>
+
+        <!-- BOTÓN DESCARGAR -->
+        <a href="https://work.ink/2m5S/amethystClient" class="download-btn" target="_blank" rel="noopener noreferrer">
+            DESCARGAR AHORA
+        </a>
+
+        <!-- BOTONES SOCIALES -->
+        <div class="social-links">
+            <a href="https://www.youtube.com/channel/UCrzQ2zmFBKBOELiSHfxgaoQ" class="social-link" target="_blank" rel="noopener noreferrer">
+                <span>▶</span> YouTube
+            </a>
+            <a href="https://tiktok.com/@itsdarexmc" class="social-link" target="_blank" rel="noopener noreferrer">
+                <span>♫</span> TikTok
+            </a>
+            <a href="http://discord.gg/fG88mm4yDZ" class="social-link" target="_blank" rel="noopener noreferrer">
+                <span>💬</span> Discord
+            </a>
+        </div>
+    </header>
+
+    <!-- SECCIÓN DE MÓDULOS -->
+    <section class="modules-section">
+        <div class="modules-header">
+            <h2>Módulos <span style="color: var(--accent-primary);">Exclusivos</span></h2>
+            <span class="amethyst-badge">AMETHYST</span>
+        </div>
+
+        <div class="modules-grid">
+            <!-- AimAssist -->
+            <div class="module-card">
+                <div class="module-name">AimAssist</div>
+                <div class="module-description">
+                    Apunta automáticamente a entidades cercanas para mejorar tu precisión en combate.
+                </div>
+            </div>
+
+            <!-- Anchor Macro -->
+            <div class="module-card">
+                <div class="module-name">Anchor Macro</div>
+                <div class="module-description">
+                    Coloca y destruye respawn anchors automáticamente para ataques continuos y efectivos.
+                </div>
+            </div>
+
+            <!-- AutoGrind -->
+            <div class="module-card">
+                <div class="module-name">AutoGrind</div>
+                <div class="module-description">
+                    Desencanta items automáticamente para obtener experiencia y recursos de manera eficiente.
+                </div>
+            </div>
+
+            <!-- AutoTotem -->
+            <div class="module-card">
+                <div class="module-name">AutoTotem</div>
+                <div class="module-description">
+                    Coloca totems en la mano principal y/o secundaria automáticamente para máxima protección.
+                </div>
+            </div>
+
+            <!-- Crystal Clicker -->
+            <div class="module-card">
+                <div class="module-name">Crystal Clicker</div>
+                <div class="module-description">
+                    Coloca y destruye cristales automáticamente a alta velocidad para combate CrystalPvP.
+                </div>
+            </div>
+
+            <!-- DoubleAnchor -->
+            <div class="module-card">
+                <div class="module-name">DoubleAnchor</div>
+                <div class="module-description">
+                    Ejecuta ataques rápidos usando dos respawn anchors seguidos para daño masivo.
+                </div>
+            </div>
+
+            <!-- Frame Dupe -->
+            <div class="module-card">
+                <div class="module-name">Frame Dupe</div>
+                <div class="module-description">
+                    Duplica items usando item frames en servidores que tengan el plugin necesario.
+                </div>
+            </div>
+
+            <!-- LegitTotem -->
+            <div class="module-card">
+                <div class="module-name">LegitTotem</div>
+                <div class="module-description">
+                    Coloca totems en la mano secundaria con mecánicas legítimas y no detectables.
+                </div>
+            </div>
+
+            <!-- PlayerTP -->
+            <div class="module-card">
+                <div class="module-name">PlayerTP</div>
+                <div class="module-description">
+                    Te mueve rápida o automáticamente hacia un jugador, ignorando paredes y obstáculos.
+                </div>
+            </div>
+
+            <!-- Shield Breaker -->
+            <div class="module-card">
+                <div class="module-name">Shield Breaker</div>
+                <div class="module-description">
+                    Cambia automáticamente a hacha para romper escudos y luego al mazo para daño de caída.
+                </div>
+            </div>
+
+            <!-- Silent Weapon -->
+            <div class="module-card">
+                <div class="module-name">Silent Weapon</div>
+                <div class="module-description">
+                    Ataca con cualquier arma sin necesidad de tenerla en la mano actual.
+                </div>
+            </div>
+
+            <!-- Spammer -->
+            <div class="module-card">
+                <div class="module-name">Spammer</div>
+                <div class="module-description">
+                    Promociona Amethyst Client automáticamente en el chat del servidor.
+                </div>
+            </div>
+
+            <!-- SpawnerESP -->
+            <div class="module-card">
+                <div class="module-name">SpawnerESP</div>
+                <div class="module-description">
+                    Resalta spawners en el mundo y muestra alertas en el chat cuando los encuentras.
+                </div>
+            </div>
+
+            <!-- TriggerBot -->
+            <div class="module-card">
+                <div class="module-name">TriggerBot</div>
+                <div class="module-description">
+                    Ataca automáticamente cuando tu punta apunta a un enemigo, sin necesidad de clickear.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Amethyst Client. Todos los derechos reservados. | 14 módulos exclusivos</p>
+    </footer>
+</div>
+</body>
+</html>
